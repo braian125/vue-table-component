@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
+import { VTooltip } from 'v-tooltip'
+Vue.directive('tooltip', VTooltip)
 
 Vue.config.productionTip = false
 
