@@ -31,8 +31,8 @@
 			<li class="page-item" v-bind:class="page != 1?'':'disabled'">
 				<a class="page-link" @click="page--" tabindex="-1">Previous</a>
 			</li>
-			<li class="page-item" v-for="(pageNumber, index) in pages.slice(page-1, page+5)" :key="index" @click="page = pageNumber">
-				<a class="page-link" href="#" v-bind:class="page == pageNumber?'active':''">{{pageNumber}}</a>
+			<li class="page-item" v-for="(pageNumber, index) in pages.slice(page-1, page+5)" :key="index" @click="page = pageNumber" v-bind:class="page == pageNumber?'active':''">
+				<a class="page-link">{{pageNumber}}</a>
 			</li>
 			<li class="page-item" v-bind:class="page < pages.length?'':'disabled'">
 				<a class="page-link" @click="page++">Next</a>
