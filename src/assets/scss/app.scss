@@ -1,6 +1,22 @@
 @import "bootstrap.min.css",
         "./fontawesome.scss";
 
+
+
+/**
+  Paginator
+*/
+  .pagination {
+    justify-content: center;
+  }
+/**
+  End Paginator
+*/
+
+
+/**
+  Tooltip
+*/
 .tooltip {
   display: block !important;
   z-index: 10000;
@@ -110,3 +126,7 @@
     transition: opacity .15s;
   }
 }
+
+/**
+  End Tooltip
+*/

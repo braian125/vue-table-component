@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <h3>Table Component using vue slots</h3><br>
-    <table-component :data="users" @click-event="clickEvent">
+    <table-component :data="users" @click-event="clickEvent" :perPage="5" pagination>
       <table-column slot="label" :label="'ID'" v-bind:value="'id'"></table-column>
       <table-column slot="label" :label="'Nombres'" v-bind:value="'name'"></table-column>
       <table-column slot="label" :label="'Apellidos'" v-bind:value="'last_name'"></table-column>
@@ -14,40 +14,13 @@
     </table-component>
   </div>
 </template>
-
 <script>
+import axios from 'axios'
 export default {
   name: 'app',
   data: () => {
     return {
-      users: [
-        {
-          id: 1,
-          name: "Brian",
-          last_name: "Vanegas",
-          sexo: "M",
-          email: "",
-          avatar: "https://i.pravatar.cc/150?u=bvanegas@example.org",
-          company:
-            {
-              name: "FGA Fondo de Garantias",
-              address: "Cra 43A # 19 - 17"
-            }
-        },
-        {
-          id: 2,
-          name: "Lisbey",
-          last_name: "",
-          sexo: "F",
-          email: "",
-          avatar: "https://i.pravatar.cc/150?u=lisbey@example.org",
-          company:
-            {
-              name: "Intap",
-              address: ""
-            }
-        }
-      ]
+      users: []
     }
   },
   components: {
@@ -57,7 +30,15 @@ export default {
   methods: {
     clickEvent() {
       console.log('go to user detail')// eslint-disable-line no-console
+    },
+    fetchData() {
+      axios.get('https://jsonplaceholder.typicode.com/users').then(response => {
+          this.users = response.data;
+      })
     }
+  },
+  mounted() {
+    this.fetchData()
   }
 }
 </script>
