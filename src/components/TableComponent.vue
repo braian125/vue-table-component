@@ -48,7 +48,6 @@ export default {
 		return {
 			page: 1,
 			pages: [],
-			_data: [],
 			fields: [],
 			actions: []
 		}
@@ -89,6 +88,11 @@ export default {
 				this.pages.push(index);
 			}
 		},
+	},
+	watch: {
+		data() {
+			this.setPages();
+		}
 	},
 	mounted() {
 		this.$slots.label.forEach((e, i) => {
