@@ -2,7 +2,7 @@
   <div id="app">
     <h3>Table Component using vue slots</h3><br>
     <table-component :data="users" @click-event="clickEvent" :perPage="5" pagination>
-      <table-column slot="label" :label="'ID'" v-bind:value="'id'"></table-column>
+      <table-column slot="label" :label="'ID'" v-bind:value="'id'" :filter="'numberFormat'"></table-column>
       <table-column slot="label" :label="'Nombres'" v-bind:value="'name'"></table-column>
       <table-column slot="label" :label="'Apellidos'" v-bind:value="'last_name'"></table-column>
       <table-column slot="label" :label="'Empresa'" v-bind:value="'company.name'"></table-column>
