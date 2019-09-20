@@ -13,6 +13,7 @@ export default {
     },
     props: {
         label: { default: null, type: String },
+        filter: { default: null, type: String },
     },
     mounted() {
     }

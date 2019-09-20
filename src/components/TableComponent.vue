@@ -8,21 +8,28 @@
 			</thead>
 			<tbody>
 				<tr v-for="(row, index) in displayed" :key="index">
-					<td v-for="(field, _index) in fields" :key="_index">
-						<template v-if="field">
-							{{ field.split('.').reduce((a, b) => a[b], row) }}
-						</template>
-
-						<template v-if="!field">
-							<div class="btn-container" v-if="actions[_index]">
-								<template v-for="(action, i) in actions[_index]">
-									<button :class="action.class" data-toggle="dropdown" v-if="action.slot == 'icon'" :key="i" @click="clickEvent(row, action.attrs.slug)" v-tooltip.top="action.attrs.tooltip">
-										<i :class="action.attrs.icon"></i>
-									</button>
+					<template v-for="(field, _index) in fields">
+						<td :key="_index" :class="$children[_index].$options.propsData.customClass">
+							<template v-if="field">
+								<template v-if="$children[_index].$options.propsData.filter">
+								{{ format(field.split('.').reduce((a, b) => a[b], row), $children[_index].$options.propsData.filter) }}
 								</template>
-							</div>
-						</template>
-					</td>
+								<template v-else>
+								{{ field.split('.').reduce((a, b) => a[b], row) }}
+								</template>
+							</template>
+
+							<template v-if="!field">
+								<div class="btn-container" v-if="actions[_index]">
+									<template v-for="(action, i) in actions[_index]">
+										<button :class="action.class" data-toggle="dropdown" v-if="action.slot == 'icon'" :key="i" @click="clickEvent(row, action.attrs.slug)" v-tooltip.top="action.attrs.tooltip">
+											<i :class="action.attrs.icon"></i>
+										</button>
+									</template>
+								</div>
+							</template>
+						</td>
+					</template>
 				</tr>
 			</tbody>
 		</table>
@@ -42,6 +49,7 @@
 	</div>
 </template>
 <script>
+import Vue from 'vue'
 export default {
 	name: 'TableComponent',
 	data: () => {
@@ -75,6 +83,9 @@ export default {
 		clickEvent(row, slug) {
 			this.$emit('click-event', row, slug)
 		},
+		format(value, filter) {
+			return Vue.filter(filter)(value)
+		},
 		paginate (rows) {
 			let page = this.page;
 			let perPage = this.perPage;
@@ -92,18 +103,24 @@ export default {
 	watch: {
 		data() {
 			this.setPages();
+		},
+		'$slots.label'() {
+			console.log('get')
 		}
 	},
 	mounted() {
-		this.$slots.label.forEach((e, i) => {
-			this.fields.push(e.data.attrs.value)
-			if (e.componentOptions.children && e.componentOptions.children.length > 0) {
-				this.actions[i] = [];
-				e.componentOptions.children.forEach((_e) => {
-					this.actions[i].push(_e.data)
-				})
-			}
-		})
+		console.log(this.$slots.label)
+		if( this.$slots.label != undefined ) {
+			this.$slots.label.forEach((e, i) => {
+				this.fields.push(e.data.attrs.value)
+				if (e.componentOptions.children && e.componentOptions.children.length > 0) {
+					this.actions[i] = [];
+					e.componentOptions.children.forEach((_e) => {
+						this.actions[i].push(_e.data)
+					})
+				}
+			})
+		}
 		this.setPages();
 		/*let el = this.scrollElement? this.scrollElement : window;
 		$(el).scroll(() => {
