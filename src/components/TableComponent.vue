@@ -32,28 +32,27 @@
                 </template>
               </template>
 
-			  <template v-if="!field">
-				<div class="btn-container" v-if="actions[_index]">
-					<template v-for="(action, i) in actions[_index]">
-					<button
-						:class="action.class"
-						data-toggle="dropdown"
-						v-if="action.slot == 'icon'"
-						:key="i"
-						@click="clickEvent(row, action.attrs.slug)"
-						v-tooltip.top="action.attrs.tooltip"
-					>
-						<i :class="action.attrs.icon"></i>
-					</button>
-					</template>
-				</div>
-			  </template>
+              <template v-if="!field">
+                <div class="btn-container" v-if="actions[_index]">
+                  <template v-for="(action, i) in actions[_index]">
+                    <button
+                      :class="action.class"
+                      data-toggle="dropdown"
+                      v-if="action.slot == 'icon'"
+                      :key="i"
+                      @click="clickEvent(row, action.attrs.slug)"
+                      v-tooltip.top="action.attrs.tooltip"
+                    >
+                      <i :class="action.attrs.icon"></i>
+                    </button>
+                  </template>
+                </div>
+              </template>
             </td>
           </template>
         </tr>
       </tbody>
     </table>
-
     <nav aria-label="..." class="mt-5" v-if="pagination">
       <ul class="pagination">
         <li class="page-item" v-bind:class="page != 1?'':'disabled'">
@@ -84,15 +83,20 @@ export default {
       page: 1,
       pages: [],
       fields: [],
-	  actions: [],
-	  nRows:null,
+      actions: [],
+      nRows:null,
     };
   },
   props: {
     data: {
-      default: () => [],type: [Array, Function] },
-    pagination: {  default: () => false, type: Boolean},
-    perPage: { default: () => 25, type: Number}
+      default: () => [],type: [Array, Function]
+    },
+    pagination: {
+      default: () => false, type: Boolean
+    },
+    perPage: {
+      default: () => 25, type: Number
+    }
   },
   computed: {
     displayed() {
@@ -102,8 +106,8 @@ export default {
   methods: {
     clickEvent(row, slug) {
       this.$emit("click-event", row, slug);
-	},
-	format(value, filter) {
+    },
+    format(value, filter) {
       return Vue.filter(filter)(value)
     },
     paginate(rows) {
@@ -114,7 +118,7 @@ export default {
       return rows.slice(from, to);
     },
     setPages() {
-	  this.pages=[];
+      this.pages=[];
       let numberOfPages = Math.ceil(this.data.length / this.nRows);
       for (let index = 1; index <= numberOfPages; index++) {
         this.pages.push(index);
@@ -127,11 +131,11 @@ export default {
     }
   },
   mounted() {
-	  this.nRows=this.perPage;
+    this.nRows=this.perPage;
     this.$slots.label.forEach((e, i) => {
-      this.fields.push(e.data.attrs.value);
-      if (
-        e.componentOptions.children &&
+    this.fields.push(e.data.attrs.value);
+    if (
+      e.componentOptions.children &&
         e.componentOptions.children.length > 0
       ) {
         this.actions[i] = [];
